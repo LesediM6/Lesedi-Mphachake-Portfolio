@@ -11,7 +11,7 @@ export const PROFILE: Profile = {
   languages: ["isiZulu", "sePedi", "Afrikaans", "English", "seSotho"],
   bio: "Highly motivated Software Engineer transitioning into Data Engineering and AI. Proficient in Python, SQL, and full-stack development with hands-on experience in AI integration and data pipelines. Recent graduate with practical project experience in e-commerce AI systems, sentiment analysis, and ethical AI auditing. Passionate about leveraging data to drive informed decision-making and building scalable, accessible systems.",
   objective: "Seeking Data Engineering/AI roles where I can apply my software development background to build robust data pipelines, implement machine learning solutions, and contribute to data-driven decision making. Particularly interested in ethical AI, data governance, and scalable system design.",
-  profileImage: "./lesedi.jpg"
+  profileImage: "https://github.com/LesediM6/Lesedi-Mphachake-Portfolio/blob/main/lesedi.jpg?raw=true"
 };
 
 export const SKILLS: SkillCategory[] = [
@@ -59,7 +59,7 @@ export const PROJECTS: Project[] = [
     category: "AI & Data",
     github: "https://mzansimarket.vercel.app/",
     demo: "https://mzansimarket.vercel.app/",
-    image: IMAGES.web,
+    image: "https://i.pinimg.com/1200x/21/c4/8b/21c48bb96e1c9a891b961d020729ec52.jpg",
     featured: true,
     deepDive: {
       problem: "E-commerce platforms often struggle with generic search results that don't match user intent, leading to lower conversion rates.",
@@ -76,7 +76,7 @@ export const PROJECTS: Project[] = [
     category: "AI & Data",
     github: "https://sentimentsphere22.vercel.app/",
     demo: "https://sentimentsphere22.vercel.app/",
-    image: IMAGES.ai,
+    image: "https://i.pinimg.com/1200x/52/ad/6a/52ad6a11c1dcb1692ff9e321bd520167.jpg",
     featured: true,
     deepDive: {
       problem: "Businesses need to understand customer sentiment instantly across various channels to address PR issues quickly.",
@@ -127,7 +127,7 @@ export const PROJECTS: Project[] = [
     category: "Web Development",
     github: "https://github.com/Mndi-Iviwe/FANG-Jewellers-Website",
     demo: "",
-    image: IMAGES.web,
+    image: "https://i.pinimg.com/736x/8a/f4/dd/8af4dd0eeb2a28ee43435f33e0d0dfa5.jpg",
     featured: false
   }
 ];
