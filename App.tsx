@@ -3,41 +3,28 @@ import Navbar from './components/Navbar';
 import Section from './components/Section';
 import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
-import CertificateSection from './components/CertificateSection'; // Previously created section (Optional: Removing to replace with simpler requirements or keeping if compatible)
-// Note: Since the prompt asks to add a certificates section with specific requirements, I will implement the section inline or use the components created. 
-// Given the prompt "Add a certificates section...", I will create a dedicated inline section here using the new components.
-import CertificateCard from './components/CertificateCard'; // New Card
-import PdfViewerModal from './components/PdfViewerModal'; // New Modal
+import CertificateSection from './components/CertificateSection';
 import SpaceBackground from './components/SpaceBackground';
 import CursorSparkles from './components/CursorSparkles';
 import { SkipLink, BackToTop, ProjectSkeleton } from './components/UiHelpers';
-import { PROFILE, SKILLS, PROJECTS, CERTIFICATES } from './constants';
-import { Project, Certificate } from './types';
-import { MapPin, Mail, Phone, Linkedin, GraduationCap, Languages, Send, CheckCircle2, AlertCircle, Award } from 'lucide-react';
+import { PROFILE, SKILLS, PROJECTS } from './constants';
+import { Project } from './types';
+import { MapPin, Mail, Phone, Linkedin, GraduationCap, Languages, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
-  // Certificate Modal State
-  const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
-
   const [projectsLoading, setProjectsLoading] = useState(true);
-  
-  // Form State
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  // Derive unique categories + 'All'
   const categories = ['All', ...new Set(PROJECTS.map(p => p.category))];
 
-  // Filtering Logic
   const filteredProjects = activeFilter === 'All' 
     ? PROJECTS 
     : PROJECTS.filter(p => p.category === activeFilter);
 
   const featuredProjects = PROJECTS.filter(p => p.featured);
 
-  // Simulate data loading for skeleton demonstration
   useEffect(() => {
     const timer = setTimeout(() => {
       setProjectsLoading(false);
@@ -45,45 +32,27 @@ const App: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle Certificate View
-  const handleViewCertificate = (cert: Certificate) => {
-    // Check if mobile device (screen width < 768px)
-    if (window.innerWidth < 768) {
-      window.open(cert.pdfUrl, '_blank');
-    } else {
-      setSelectedCertificate(cert);
-    }
-  };
-
-  // Handle Form Submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('submitting');
     
     const form = e.currentTarget;
     const formData = new FormData(form);
-    
-    // Get form values
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const message = formData.get('message') as string;
 
-    // Basic validation
     if (!name || !email || !message) {
       setFormStatus('error');
       setTimeout(() => setFormStatus('idle'), 3000);
       return;
     }
     
-    // Construct mailto link
     const subject = `Portfolio Inquiry from ${name}`;
     const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
     const mailtoLink = `mailto:${PROFILE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    // Open default email client
     window.location.href = mailtoLink;
     
-    // Show success state
     setFormStatus('success');
     form.reset();
     setTimeout(() => setFormStatus('idle'), 5000);
@@ -134,16 +103,11 @@ const App: React.FC = () => {
           </div>
           
           <div className="relative w-64 h-64 md:w-80 md:h-80 flex-shrink-0 mt-12 md:mt-0 group">
-            {/* Geometric Orbital Rings */}
             <div className="absolute inset-[-20px] border border-slate-200 dark:border-slate-700 rounded-full animate-spin-slow"></div>
             <div className="absolute inset-[-20px] border-t-2 border-teal-500 dark:border-teal-400 rounded-full animate-spin-slow opacity-60"></div>
-            
             <div className="absolute inset-[-40px] border border-slate-200 dark:border-slate-700/50 rounded-full animate-reverse-spin"></div>
             <div className="absolute inset-[-40px] border-b-2 border-indigo-500 dark:border-indigo-400 rounded-full animate-reverse-spin opacity-40"></div>
-
-            {/* Floating Satellite */}
             <div className="absolute top-1/2 -right-[50px] w-4 h-4 bg-teal-500 rounded-full shadow-lg shadow-teal-500/50 animate-float"></div>
-
             <div className="absolute inset-0 bg-gradient-to-tr from-teal-400 to-indigo-400 rounded-full opacity-20 blur-2xl animate-pulse"></div>
             <img 
               src={PROFILE.profileImage}
@@ -205,12 +169,6 @@ const App: React.FC = () => {
 
         {/* TECHNICAL SKILLS */}
         <Section id="skills" className="py-16 md:py-20 relative">
-          <div className="absolute right-0 top-0 -z-10 opacity-10">
-             <svg width="200" height="200" viewBox="0 0 100 100">
-                <rect x="0" y="0" width="100" height="100" stroke="currentColor" fill="none" strokeWidth="1" />
-                <rect x="20" y="20" width="60" height="60" stroke="currentColor" fill="none" strokeWidth="0.5" transform="rotate(45 50 50)" />
-             </svg>
-          </div>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Technical Arsenal</h2>
             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-4">
@@ -221,9 +179,6 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {SKILLS.map((category, idx) => (
               <div key={idx} className="bg-white/90 dark:bg-slate-900/90 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-teal-400 dark:hover:border-teal-600 transition-colors backdrop-blur-sm group">
-                <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
-                   <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
-                </div>
                 <h3 className="text-lg font-bold text-teal-600 dark:text-teal-400 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
                   {category.category}
                 </h3>
@@ -239,106 +194,69 @@ const App: React.FC = () => {
           </div>
         </Section>
 
-        {/* CERTIFICATES & ACCREDITATIONS SECTION */}
-        <Section id="certificates" className="py-16 md:py-20 relative">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 -z-10 opacity-5 dark:opacity-10">
-                <div className="w-96 h-96 bg-teal-400 rounded-full blur-[100px]"></div>
-            </div>
-            
-            <div className="mb-12 text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3 flex items-center justify-center md:justify-start gap-3">
-                <Award className="h-8 w-8 text-teal-600" />
-                Certifications & Accreditations
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto md:mx-0">
-                Formal recognition of technical skills and continuous professional development.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-500 delay-150">
-                {CERTIFICATES.map((cert) => (
-                  <CertificateCard 
-                    key={cert.id} 
-                    certificate={cert} 
-                    onViewPdf={handleViewCertificate} 
-                  />
-                ))}
-            </div>
-        </Section>
+        {/* CERTIFICATES SECTION */}
+        <CertificateSection />
 
         {/* PROJECTS SECTION */}
         <Section id="projects" className="py-16 md:py-20">
-           
-           {/* Header */}
-           <div className="mb-12">
+          <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Projects</h2>
             <p className="text-slate-600 dark:text-slate-400">Explore my technical journey through code, data, and deployed applications.</p>
-           </div>
+          </div>
 
-           {/* Loading State for Projects */}
-           {projectsLoading ? (
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-               <ProjectSkeleton />
-               <ProjectSkeleton />
-               <ProjectSkeleton />
-             </div>
-           ) : (
-             <>
-               {/* Featured Section - Auto-populated */}
-               {featuredProjects.length > 0 && (
-                 <div className="mb-16">
-                   <div className="flex items-center gap-3 mb-6">
-                     <div className="h-8 w-1 bg-teal-500 rounded-full"></div>
-                     <h3 className="text-xl font-bold text-slate-900 dark:text-white">Featured Work</h3>
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                     {featuredProjects.map((project) => (
-                       <ProjectCard 
+          {projectsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <ProjectSkeleton />
+              <ProjectSkeleton />
+              <ProjectSkeleton />
+            </div>
+          ) : (
+            <>
+              {featuredProjects.length > 0 && (
+                <div className="mb-16">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="h-8 w-1 bg-teal-500 rounded-full"></div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Featured Work</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    {featuredProjects.map((project) => (
+                      <ProjectCard 
                         key={project.id} 
                         project={project} 
                         onClick={setSelectedProject}
-                       />
-                     ))}
-                   </div>
-                 </div>
-               )}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
 
-               {/* Filter Bar */}
-               <div className="flex flex-wrap gap-2 mb-8 items-center justify-center md:justify-start">
-                 <span className="text-sm font-bold text-slate-400 dark:text-slate-500 mr-2 uppercase tracking-wide">Filter:</span>
-                 {categories.map((category) => (
-                   <button
-                     key={category}
-                     onClick={() => setActiveFilter(category)}
-                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 ${
-                       activeFilter === category
-                         ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
-                         : 'bg-white/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 backdrop-blur-sm'
-                     }`}
-                   >
-                     {category}
-                   </button>
-                 ))}
-               </div>
+              <div className="flex flex-wrap gap-2 mb-8 items-center justify-center md:justify-start">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveFilter(category)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+                      activeFilter === category
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
+                        : 'bg-white/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 backdrop-blur-sm'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
 
-               {/* All Projects Grid */}
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-500">
-                 {filteredProjects.length > 0 ? (
-                   filteredProjects.map((project) => (
-                     <ProjectCard 
-                      key={project.id} 
-                      project={project} 
-                      onClick={setSelectedProject}
-                     />
-                   ))
-                 ) : (
-                   <div className="col-span-full py-12 text-center text-slate-500 dark:text-slate-400 italic">
-                     No projects found in this category.
-                   </div>
-                 )}
-               </div>
-             </>
-           )}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-500">
+                {filteredProjects.map((project) => (
+                  <ProjectCard 
+                    key={project.id} 
+                    project={project} 
+                    onClick={setSelectedProject}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </Section>
 
         {/* CONTACT SECTION */}
@@ -349,116 +267,58 @@ const App: React.FC = () => {
                 <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Let's Connect</h2>
                 <p className="text-slate-600 dark:text-slate-300 mb-8 text-base md:text-lg">
                   I'm actively seeking opportunities in Data Engineering and AI. 
-                  Whether you have a question about my portfolio or want to discuss a potential role, 
-                  I'd love to hear from you.
                 </p>
                 
                 <div className="space-y-6">
                   <div className="flex items-center gap-4 group">
-                    <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl text-teal-600 dark:text-teal-400 group-hover:bg-teal-100 dark:group-hover:bg-teal-900/30 transition-colors">
+                    <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl text-teal-600 dark:text-teal-400">
                       <Mail className="h-6 w-6" />
                     </div>
-                    <div className="overflow-hidden">
-                      <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Email</p>
-                      <a href={`mailto:${PROFILE.email}`} className="text-slate-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors text-base md:text-lg font-semibold truncate block focus:outline-none focus:underline">{PROFILE.email}</a>
+                    <div>
+                      <p className="text-sm text-slate-500 font-medium">Email</p>
+                      <a href={`mailto:${PROFILE.email}`} className="text-slate-900 dark:text-white hover:text-teal-600 transition-colors font-semibold truncate block">{PROFILE.email}</a>
                     </div>
                   </div>
-                  
                   <div className="flex items-center gap-4 group">
-                    <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl text-teal-600 dark:text-teal-400 group-hover:bg-teal-100 dark:group-hover:bg-teal-900/30 transition-colors">
+                    <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl text-teal-600 dark:text-teal-400">
                       <Phone className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Phone</p>
-                      <p className="text-slate-900 dark:text-white text-base md:text-lg font-semibold">{PROFILE.phone}</p>
+                      <p className="text-sm text-slate-500 font-medium">Phone</p>
+                      <p className="text-slate-900 dark:text-white font-semibold">{PROFILE.phone}</p>
                     </div>
                   </div>
-
                   <div className="flex items-center gap-4 group">
-                    <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl text-teal-600 dark:text-teal-400 group-hover:bg-teal-100 dark:group-hover:bg-teal-900/30 transition-colors">
+                    <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl text-teal-600 dark:text-teal-400">
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Location</p>
-                      <p className="text-slate-900 dark:text-white text-base md:text-lg font-semibold">{PROFILE.location}</p>
+                      <p className="text-sm text-slate-500 font-medium">Location</p>
+                      <p className="text-slate-900 dark:text-white font-semibold">{PROFILE.location}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-slate-50/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 backdrop-blur-sm">
-                <form 
-                  onSubmit={handleSubmit}
-                  className="space-y-4"
-                  noValidate
-                >
+              <div className="bg-slate-50/80 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <input type="hidden" name="_subject" value="New Portfolio Inquiry" />
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1.5">Name</label>
-                    <input 
-                      type="text" 
-                      name="name" 
-                      id="name"
-                      required
-                      disabled={formStatus === 'submitting'}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all text-base shadow-sm disabled:opacity-50"
-                      placeholder="Your Name"
-                    />
+                    <input type="text" name="name" id="name" required className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all shadow-sm" placeholder="Your Name" />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1.5">Email</label>
-                    <input 
-                      type="email" 
-                      name="email" 
-                      id="email"
-                      required
-                      disabled={formStatus === 'submitting'}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all text-base shadow-sm disabled:opacity-50"
-                      placeholder="your@email.com"
-                    />
+                    <input type="email" name="email" id="email" required className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all shadow-sm" placeholder="your@email.com" />
                   </div>
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1.5">Message</label>
-                    <textarea 
-                      name="message" 
-                      id="message"
-                      rows={4}
-                      required
-                      disabled={formStatus === 'submitting'}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all text-base shadow-sm resize-none disabled:opacity-50"
-                      placeholder="How can I help you?"
-                    ></textarea>
+                    <textarea name="message" id="message" rows={4} required className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all shadow-sm resize-none" placeholder="How can I help you?"></textarea>
                   </div>
-                  
-                  <button 
-                    type="submit"
-                    disabled={formStatus === 'submitting'}
-                    className={`w-full font-bold py-4 rounded-xl transition-all transform shadow-lg flex items-center justify-center gap-2 text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-                       formStatus === 'submitting' 
-                        ? 'bg-slate-400 cursor-not-allowed text-white' 
-                        : 'bg-teal-600 hover:bg-teal-700 text-white hover:-translate-y-1 shadow-teal-500/20 active:scale-95'
-                    }`}
-                  >
-                    {formStatus === 'submitting' ? (
-                      'Preparing...'
-                    ) : (
-                      <>Send Message <Send className="h-5 w-5" /></>
-                    )}
+                  <button type="submit" className="w-full font-bold py-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-500/20 active:scale-95 transition-all">
+                    Send Message
                   </button>
-
-                  {formStatus === 'success' && (
-                    <div className="p-4 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
-                      <CheckCircle2 className="h-5 w-5" />
-                      <p className="text-sm font-medium">Draft opened in your email client!</p>
-                    </div>
-                  )}
-
-                  {formStatus === 'error' && (
-                    <div className="p-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
-                      <AlertCircle className="h-5 w-5" />
-                      <p className="text-sm font-medium">Please fill in all fields.</p>
-                    </div>
-                  )}
+                  {formStatus === 'success' && <div className="p-4 bg-green-50 text-green-700 rounded-xl flex items-center gap-2"><CheckCircle2 className="h-5 w-5" /> Draft opened!</div>}
                 </form>
               </div>
             </div>
@@ -466,31 +326,11 @@ const App: React.FC = () => {
         </Section>
       </main>
 
-      <footer className="bg-white/90 dark:bg-slate-950/90 py-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300 backdrop-blur-sm no-print">
-        <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 dark:text-slate-400 text-sm">
-          <p>© {new Date().getFullYear()} {PROFILE.name}. All rights reserved.</p>
-          <p className="mt-2">Designed & Built with React, Tailwind & TypeScript.</p>
-        </div>
+      <footer className="bg-white/90 dark:bg-slate-950/90 py-8 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 text-sm">
+        <p>© {new Date().getFullYear()} {PROFILE.name}. All rights reserved.</p>
       </footer>
-      
       <BackToTop />
-
-      {/* PROJECT MODAL */}
-      {selectedProject && (
-        <ProjectModal 
-          project={selectedProject} 
-          onClose={() => setSelectedProject(null)} 
-        />
-      )}
-
-      {/* PDF VIEWER MODAL */}
-      {selectedCertificate && (
-        <PdfViewerModal
-          pdfUrl={selectedCertificate.pdfUrl}
-          title={selectedCertificate.title}
-          onClose={() => setSelectedCertificate(null)}
-        />
-      )}
+      {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 export interface ProjectDetails {
   problem: string;
   solution: string;
@@ -24,22 +25,19 @@ export interface SkillCategory {
 }
 
 export interface Certificate {
-  id: string;
+  id: number | string;
   title: string;
   issuer: string;
-  issueDate: string; // e.g., "March 2025"
-  pdfUrl: string; // URL to the PDF file
-  credentialId?: string;
+  issueDate: string;
+  imageUrl: string;
+  verificationCode: string;
   skills: string[];
-  previewImage?: string; // Optional URL for card thumbnail
-  
-  // Extended properties
-  credentialUrl?: string;
-  image?: string;
+  category: string;
+  // Added optional fields used across certificate modals and forms
   description?: string;
-  category?: string;
+  credentialUrl?: string;
+  pdfUrl?: string;
   verificationId?: string;
-  expirationDate?: string;
 }
 
 export interface Profile {

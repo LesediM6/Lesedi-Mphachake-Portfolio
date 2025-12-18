@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { X, ExternalLink, Calendar, CheckCircle2, Download, Share2, Award, Building2 } from 'lucide-react';
 import { Certificate } from '../types';
@@ -36,7 +37,8 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, onClos
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     
-    return `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(certificate.title)}&organizationName=${encodeURIComponent(certificate.issuer)}&issueYear=${year}&issueMonth=${month}&certUrl=${encodeURIComponent(certificate.credentialUrl)}${certificate.verificationId ? `&certId=${encodeURIComponent(certificate.verificationId)}` : ''}`;
+    // Updated: Use credentialUrl and verificationCode from the interface
+    return `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(certificate.title)}&organizationName=${encodeURIComponent(certificate.issuer)}&issueYear=${year}&issueMonth=${month}&certUrl=${encodeURIComponent(certificate.credentialUrl || '')}${certificate.verificationCode ? `&certId=${encodeURIComponent(certificate.verificationCode)}` : ''}`;
   };
 
   return (
@@ -51,8 +53,9 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, onClos
         {/* Header */}
         <div className="relative h-32 bg-slate-100 dark:bg-slate-800 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-teal-600/20 to-indigo-600/20"></div>
+          {/* Fix: Use imageUrl instead of image */}
           <img 
-            src={certificate.image} 
+            src={certificate.imageUrl} 
             alt="" 
             className="w-full h-full object-cover opacity-30 blur-sm"
           />
@@ -76,7 +79,8 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, onClos
             <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-medium">
               <Building2 className="h-4 w-4" />
               <span>{certificate.issuer}</span>
-              {certificate.verificationId && (
+              {/* Fix: Use verificationCode instead of verificationId */}
+              {certificate.verificationCode && (
                 <span className="flex items-center gap-1 text-teal-600 dark:text-teal-400 text-xs bg-teal-50 dark:bg-teal-900/20 px-2 py-0.5 rounded-full border border-teal-100 dark:border-teal-800 ml-2">
                   <CheckCircle2 className="h-3 w-3" /> Verified
                 </span>
@@ -95,14 +99,16 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, onClos
               </div>
               <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">Credential ID</p>
+                {/* Fix: Use verificationCode instead of verificationId */}
                 <div className="text-slate-900 dark:text-white font-medium truncate">
-                  {certificate.verificationId || "N/A"}
+                  {certificate.verificationCode || "N/A"}
                 </div>
               </div>
             </div>
 
             <div>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide mb-3">Description</h3>
+              {/* Fix: Access description (now in updated interface) */}
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm">
                 {certificate.description}
               </p>
@@ -123,6 +129,7 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, onClos
 
         {/* Footer Actions */}
         <div className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-3">
+          {/* Fix: Access credentialUrl (now in updated interface) */}
           <a 
             href={certificate.credentialUrl}
             target="_blank"

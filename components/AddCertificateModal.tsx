@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X, Save, Upload, AlertCircle } from 'lucide-react';
 import { Certificate } from '../types';
@@ -42,17 +43,19 @@ const AddCertificateModal: React.FC<AddCertificateModalProps> = ({ onClose, onSa
     }
 
     const newCertificate: Certificate = {
+      // Fix: id can now be string as per updated interface
       id: `cert-${Date.now()}`,
       title: formData.title,
       issuer: formData.issuer,
       issueDate: formData.issueDate,
       credentialUrl: formData.credentialUrl || '#',
-      pdfUrl: formData.credentialUrl || '#', // Placeholder as required by type
-      // Use a placeholder if no image provided
-      image: formData.image || 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000',
+      pdfUrl: formData.credentialUrl || '#', 
+      // Fix: Use imageUrl instead of image
+      imageUrl: formData.image || 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000',
       description: formData.description || 'No description provided.',
       category: formData.category,
-      skills: formData.skills.split(',').map(s => s.trim()).filter(s => s.length > 0)
+      skills: formData.skills.split(',').map(s => s.trim()).filter(s => s.length > 0),
+      verificationCode: '' // Add missing required field
     };
 
     onSave(newCertificate);

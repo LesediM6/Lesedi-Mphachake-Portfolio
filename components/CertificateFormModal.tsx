@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { X, Save, Upload, AlertCircle, Image as ImageIcon } from 'lucide-react';
 import { Certificate } from '../types';
@@ -29,8 +30,10 @@ const CertificateFormModal: React.FC<CertificateFormModalProps> = ({ initialData
         title: initialData.title,
         issuer: initialData.issuer,
         issueDate: initialData.issueDate,
+        // Fix: Access credentialUrl and description (now in updated interface)
         credentialUrl: initialData.credentialUrl || '',
-        image: initialData.image || '',
+        // Fix: Use imageUrl instead of image
+        image: initialData.imageUrl || '',
         description: initialData.description || '',
         category: (initialData.category as any) || 'Technical',
         skills: initialData.skills.join(', ')
@@ -72,17 +75,21 @@ const CertificateFormModal: React.FC<CertificateFormModalProps> = ({ initialData
     }
 
     const certificate: Certificate = {
-      id: initialData?.id || `cert-${Date.now()}`,
+      // Fix: Mixed string/number ID is allowed in updated interface
+      id: initialData?.id || Date.now(),
       title: formData.title,
       issuer: formData.issuer,
       issueDate: formData.issueDate,
       credentialUrl: formData.credentialUrl || '#',
-      pdfUrl: initialData?.pdfUrl || formData.credentialUrl || '#', // Maintain existing PDF or use credential link
-      image: formData.image || 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000',
+      // Fix: Maintain existing pdfUrl or use credentialUrl
+      pdfUrl: initialData?.pdfUrl || formData.credentialUrl || '#', 
+      // Fix: Use imageUrl instead of image
+      imageUrl: formData.image || 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000',
       description: formData.description || 'No description provided.',
       category: formData.category,
       skills: formData.skills.split(',').map(s => s.trim()).filter(s => s.length > 0),
-      verificationId: initialData?.verificationId
+      // Fix: Use verificationCode instead of verificationId
+      verificationCode: initialData?.verificationCode || ''
     };
 
     onSave(certificate);
