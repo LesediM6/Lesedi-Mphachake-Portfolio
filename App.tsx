@@ -3,16 +3,25 @@ import Navbar from './components/Navbar';
 import Section from './components/Section';
 import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
+import CertificateSection from './components/CertificateSection'; // Previously created section (Optional: Removing to replace with simpler requirements or keeping if compatible)
+// Note: Since the prompt asks to add a certificates section with specific requirements, I will implement the section inline or use the components created. 
+// Given the prompt "Add a certificates section...", I will create a dedicated inline section here using the new components.
+import CertificateCard from './components/CertificateCard'; // New Card
+import PdfViewerModal from './components/PdfViewerModal'; // New Modal
 import SpaceBackground from './components/SpaceBackground';
 import CursorSparkles from './components/CursorSparkles';
 import { SkipLink, BackToTop, ProjectSkeleton } from './components/UiHelpers';
-import { PROFILE, SKILLS, PROJECTS } from './constants';
-import { Project } from './types';
-import { MapPin, Mail, Phone, Linkedin, GraduationCap, Languages, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { PROFILE, SKILLS, PROJECTS, CERTIFICATES } from './constants';
+import { Project, Certificate } from './types';
+import { MapPin, Mail, Phone, Linkedin, GraduationCap, Languages, Send, CheckCircle2, AlertCircle, Award } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  
+  // Certificate Modal State
+  const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+
   const [projectsLoading, setProjectsLoading] = useState(true);
   
   // Form State
@@ -35,6 +44,16 @@ const App: React.FC = () => {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Handle Certificate View
+  const handleViewCertificate = (cert: Certificate) => {
+    // Check if mobile device (screen width < 768px)
+    if (window.innerWidth < 768) {
+      window.open(cert.pdfUrl, '_blank');
+    } else {
+      setSelectedCertificate(cert);
+    }
+  };
 
   // Handle Form Submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -218,6 +237,33 @@ const App: React.FC = () => {
               </div>
             ))}
           </div>
+        </Section>
+
+        {/* CERTIFICATES & ACCREDITATIONS SECTION */}
+        <Section id="certificates" className="py-16 md:py-20 relative">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 -z-10 opacity-5 dark:opacity-10">
+                <div className="w-96 h-96 bg-teal-400 rounded-full blur-[100px]"></div>
+            </div>
+            
+            <div className="mb-12 text-center md:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3 flex items-center justify-center md:justify-start gap-3">
+                <Award className="h-8 w-8 text-teal-600" />
+                Certifications & Accreditations
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto md:mx-0">
+                Formal recognition of technical skills and continuous professional development.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-500 delay-150">
+                {CERTIFICATES.map((cert) => (
+                  <CertificateCard 
+                    key={cert.id} 
+                    certificate={cert} 
+                    onViewPdf={handleViewCertificate} 
+                  />
+                ))}
+            </div>
         </Section>
 
         {/* PROJECTS SECTION */}
@@ -420,7 +466,7 @@ const App: React.FC = () => {
         </Section>
       </main>
 
-      <footer className="bg-white/90 dark:bg-slate-950/90 py-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300 backdrop-blur-sm">
+      <footer className="bg-white/90 dark:bg-slate-950/90 py-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300 backdrop-blur-sm no-print">
         <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 dark:text-slate-400 text-sm">
           <p>© {new Date().getFullYear()} {PROFILE.name}. All rights reserved.</p>
           <p className="mt-2">Designed & Built with React, Tailwind & TypeScript.</p>
@@ -429,11 +475,20 @@ const App: React.FC = () => {
       
       <BackToTop />
 
-      {/* MODAL */}
+      {/* PROJECT MODAL */}
       {selectedProject && (
         <ProjectModal 
           project={selectedProject} 
           onClose={() => setSelectedProject(null)} 
+        />
+      )}
+
+      {/* PDF VIEWER MODAL */}
+      {selectedCertificate && (
+        <PdfViewerModal
+          pdfUrl={selectedCertificate.pdfUrl}
+          title={selectedCertificate.title}
+          onClose={() => setSelectedCertificate(null)}
         />
       )}
     </div>

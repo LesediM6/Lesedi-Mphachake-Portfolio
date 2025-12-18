@@ -1,4 +1,4 @@
-import { Profile, Project, SkillCategory } from './types';
+import { Profile, Project, SkillCategory, Certificate } from './types';
 
 export const PROFILE: Profile = {
   name: "Lesedi Mphachake",
@@ -46,7 +46,8 @@ const IMAGES = {
   ai: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=1000",
   web: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80&w=1000",
   data: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000",
-  mobile: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=1000"
+  mobile: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=1000",
+  cert_bg: "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?auto=format&fit=crop&q=80&w=1000"
 };
 
 export const PROJECTS: Project[] = [
@@ -129,5 +130,106 @@ export const PROJECTS: Project[] = [
     demo: "",
     image: "https://i.pinimg.com/736x/8a/f4/dd/8af4dd0eeb2a28ee43435f33e0d0dfa5.jpg",
     featured: false
+  }
+];
+
+export const CERTIFICATES: Certificate[] = [
+  {
+    id: "ms-ai-azure",
+    title: "Artificial Intelligence on Microsoft Azure",
+    issuer: "Microsoft",
+    issueDate: "December 1, 2025",
+    pdfUrl: "https://coursera.org/verify/LYTXXHIDT9TV",
+    credentialId: "LYTXXHIDT9TV",
+    verificationId: "LYTXXHIDT9TV",
+    skills: ["Azure AI", "Machine Learning", "Cloud Computing"],
+    category: "Technical",
+    image: IMAGES.cert_bg,
+    description: "Authorized by Microsoft and offered through Coursera. Demonstrated foundational knowledge in AI solutions on the Azure platform.",
+    credentialUrl: "https://coursera.org/verify/LYTXXHIDT9TV"
+  },
+  {
+    id: "ibm-python-ds",
+    title: "Python for Data Science, AI & Development",
+    issuer: "IBM",
+    issueDate: "December 4, 2025",
+    pdfUrl: "https://coursera.org/verify/T7PLQ5ICQWMM",
+    credentialId: "T7PLQ5ICQWMM",
+    verificationId: "T7PLQ5ICQWMM",
+    skills: ["Python", "Data Science", "AI Development"],
+    category: "Technical",
+    image: IMAGES.cert_bg,
+    description: "Comprehensive study of Python fundamentals applied to data science and AI workflows. Authorized by IBM.",
+    credentialUrl: "https://coursera.org/verify/T7PLQ5ICQWMM"
+  },
+  {
+    id: "gen-ai-llm",
+    title: "Generative AI with Large Language Models",
+    issuer: "DeepLearning.AI & AWS",
+    issueDate: "November 11, 2025",
+    pdfUrl: "https://coursera.org/verify/4RV2DNT0TVZG",
+    credentialId: "4RV2DNT0TVZG",
+    verificationId: "4RV2DNT0TVZG",
+    skills: ["LLMs", "Generative AI", "NLP", "AWS"],
+    category: "Technical",
+    image: IMAGES.cert_bg,
+    description: "Advanced training on building and deploying Generative AI solutions using LLMs. Authorized by DeepLearning.AI and Amazon Web Services.",
+    credentialUrl: "https://coursera.org/verify/4RV2DNT0TVZG"
+  },
+  {
+    id: "asu-prompt-eng",
+    title: "AI Foundations: Prompt Engineering with ChatGPT",
+    issuer: "Arizona State University",
+    issueDate: "November 7, 2025",
+    pdfUrl: "https://coursera.org/verify/00S68LUMNZUB",
+    credentialId: "00S68LUMNZUB",
+    verificationId: "00S68LUMNZUB",
+    skills: ["Prompt Engineering", "ChatGPT", "AI Foundations"],
+    category: "Technical",
+    image: IMAGES.cert_bg,
+    description: "Mastering the art of prompt engineering to leverage ChatGPT for maximum productivity and accuracy. Authorized by ASU.",
+    credentialUrl: "https://coursera.org/verify/00S68LUMNZUB"
+  },
+  {
+    id: "ibm-chatbots",
+    title: "Building AI Powered Chatbots Without Programming",
+    issuer: "IBM",
+    issueDate: "November 14, 2025",
+    pdfUrl: "https://coursera.org/verify/4OED54S2B3G5",
+    credentialId: "4OED54S2B3G5",
+    verificationId: "4OED54S2B3G5",
+    skills: ["Chatbots", "NLP", "No-code AI"],
+    category: "Technical",
+    image: IMAGES.cert_bg,
+    description: "Authorized by IBM. Designing, building, and deploying intelligent chatbots using cloud services without writing code.",
+    credentialUrl: "https://coursera.org/verify/4OED54S2B3G5"
+  },
+  {
+    id: "asu-eq",
+    title: "Emotional Intelligence",
+    issuer: "Arizona State University",
+    issueDate: "December 12, 2025",
+    pdfUrl: "https://coursera.org/verify/TKPFEK8B5DV2",
+    credentialId: "TKPFEK8B5DV2",
+    verificationId: "TKPFEK8B5DV2",
+    skills: ["Soft Skills", "Emotional Intelligence", "Communication"],
+    category: "Professional",
+    image: IMAGES.cert_bg,
+    description: "Developing self-awareness and relationship management skills essential for professional leadership. Authorized by ASU.",
+    credentialUrl: "https://coursera.org/verify/TKPFEK8B5DV2"
+  },
+  {
+    id: "uci-productivity",
+    title: "Work Smarter, Not Harder: Time Management",
+    issuer: "University of California, Irvine",
+    issueDate: "December 11, 2025",
+    pdfUrl: "https://coursera.org/verify/BLG73N76T3HK",
+    credentialId: "BLG73N76T3HK",
+    verificationId: "BLG73N76T3HK",
+    skills: ["Time Management", "Productivity", "Professionalism"],
+    category: "Professional",
+    image: IMAGES.cert_bg,
+    description: "Techniques for personal and professional productivity and effective time allocation. Authorized by UC Irvine.",
+    credentialUrl: "https://coursera.org/verify/BLG73N76T3HK"
   }
 ];

@@ -23,6 +23,25 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export interface Certificate {
+  id: string;
+  title: string;
+  issuer: string;
+  issueDate: string; // e.g., "March 2025"
+  pdfUrl: string; // URL to the PDF file
+  credentialId?: string;
+  skills: string[];
+  previewImage?: string; // Optional URL for card thumbnail
+  
+  // Extended properties
+  credentialUrl?: string;
+  image?: string;
+  description?: string;
+  category?: string;
+  verificationId?: string;
+  expirationDate?: string;
+}
+
 export interface Profile {
   name: string;
   title: string;
